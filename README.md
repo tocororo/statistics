@@ -8,6 +8,7 @@ This plugin is the updated version of the old plugin, published on 2013 (for OJS
 
 # Versions OJS
 ```
+2.4.8-1
 2.4.8
 2.4.7-1
 2.4.7
