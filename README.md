@@ -19,7 +19,7 @@ This plugin is the updated version of the old plugin, published on 2013 (for OJS
 2.4.3
 ```
 # Download and Installation
-- Download the code from github release - release v1.0. You get a ```statistics-v1.0.zip``` file
+- Download the code from github (release v1.0) You get a ```statistics-v1.0.zip``` file
 
 - Uncompress the .zip file. You get the directory ```statistics-v1.0/```
 
