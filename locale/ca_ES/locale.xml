@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE locale SYSTEM "../../../../../lib/pkp/dtd/locale.dtd">
+
+<!--
+  * @file plugins/generic/statistics/ca_ES/locale.xml
+  *
+  * Copyright (c) 2016 Fran Máñez - Universitat Politècnica de Catalunya (UPC)
+  * fran.upc@gmail.com
+  *
+  * Localization strings for the ca_ES (Català) locale.
+  *
+  -->
+ 
+<locale name="ca_ES" full_name="Català">
+	<message key="plugins.generic.statistics.description">Gràfiques estadístiques. Visualització gràfica de les estadístiques de la taula \'METRICS\'</message>
+	<message key="plugins.generic.statistics.name">Estadístiques</message>
+	<message key="plugins.generic.statistics.monthly">Mensual</message>
+	<message key="plugins.generic.statistics.lastYears">Darrers anys</message>
+	<message key="plugins.generic.statistics.byCountry">Països</message>
+	<message key="plugins.generic.statistics.article">Articles</message>
+	<message key="plugins.generic.statistics.nameArticle">Nom article</message>
+	<message key="plugins.generic.statistics.nameIssue">Nom número</message>
+	<message key="plugins.generic.statistics.downloads">Descarregues</message>
+	<message key="plugins.generic.statistics.abstracts">Visites</message>
+	<message key="plugins.generic.statistics.columns">Columnes</message>
+	<message key="plugins.generic.statistics.columnsStack">Columnes apilades</message>
+	<message key="plugins.generic.statistics.bar">Barres</message>
+	<message key="plugins.generic.statistics.lines">Línies</message>
+	
+	<message key="plugins.generic.statistics.titleByArticle">Estadístiques d\'article</message>
+	<message key="plugins.generic.statistics.queryNumbers">Número de consultes</message>
+	<message key="plugins.generic.statistics.querysToTheJournal">Descàrregues y visites a la pàgina resum de l\'article en</message>
+	<message key="plugins.generic.statistics.querysFrom">Descàrregues y visites a la pàgina resum de l\'article des de</message>
+	<message key="plugins.generic.statistics.querysTo">fins</message>
+	<message key="plugins.generic.statistics.viewByCountries">Visites</message>
+	<message key="plugins.generic.statistics.downloadByCountries">Descàrregues</message>
+	<message key="plugins.generic.statistics.viewAbstracts">Visites</message>
+	<message key="plugins.generic.statistics.viewAbstractsByCountry">Visites a la pàgina resum de l\'article</message>
+	<message key="plugins.generic.statistics.viewDownloads">Descàrregues</message>
+	<message key="plugins.generic.statistics.lastYears2">Darrers 6 anys</message>
+	<message key="plugins.generic.statistics.byMonthArticle">Últims 12 mesos</message>
+	<message key="plugins.generic.statistics.byMonth">Per mesos de l\'any</message>
+	<message key="plugins.generic.statistics.querysToTheArticle">Consultes a l\'article</message>
+	<message key="plugins.generic.statistics.querysFromArticle">Consultas a l\'article des de</message>
+	<message key="plugins.generic.statistics.issues">Números</message>
+	<message key="plugins.generic.statistics.volume">Volum</message>
+	<message key="plugins.generic.statistics.number">Número</message>
+	<message key="plugins.generic.statistics.year">Any</message>
+	<message key="plugins.generic.statistics.rankingDownloadArticles">Ranking articles més descarregats</message>
+	<message key="plugins.generic.statistics.rankingAbstractArticles">Ranking visites a la pàgina resume de l\'article</message>
+	<message key="plugins.generic.statistics.rankingIssues">Ranking visites a la taula de continguts del número</message>
+
+</locale>

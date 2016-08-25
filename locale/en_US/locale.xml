@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE locale SYSTEM "../../../../../lib/pkp/dtd/locale.dtd">
+
+<!--
+  * @file plugins/generic/statistics/en_US/locale.xml
+  *
+  * Copyright (c) 2016 Fran Máñez - Universitat Politècnica de Catalunya (UPC)
+  * fran.upc@gmail.com
+  *
+  * Localization strings for the en_US (U.S. English) locale.
+  *
+  -->
+ 
+<locale name="en_US" full_name="U.S. English">
+	<message key="plugins.generic.statistics.description">Statistics charts. Graphical display of the 'METRICS' table data</message>
+	<message key="plugins.generic.statistics.name">Statistics</message>
+	<message key="plugins.generic.statistics.monthly">Monthly</message>
+	<message key="plugins.generic.statistics.lastYears">Last years</message>
+	<message key="plugins.generic.statistics.byCountry">Countries</message>
+	<message key="plugins.generic.statistics.article">Articles</message>
+	<message key="plugins.generic.statistics.nameArticle">Article name</message>
+	<message key="plugins.generic.statistics.nameIssue">Issue name</message>
+	<message key="plugins.generic.statistics.downloads">Downloads</message>
+	<message key="plugins.generic.statistics.abstracts">Views</message>
+	<message key="plugins.generic.statistics.columns">Columns</message>
+	<message key="plugins.generic.statistics.columnsStack">Stack columns</message>
+	<message key="plugins.generic.statistics.bar">Bars</message>
+	<message key="plugins.generic.statistics.lines">Lines</message>
+	
+	<message key="plugins.generic.statistics.titleByArticle">Statistics by article</message>
+	<message key="plugins.generic.statistics.queryNumbers">Number of queries</message>
+	<message key="plugins.generic.statistics.querysToTheJournal">Downloads and article abstract page views in</message>
+	<message key="plugins.generic.statistics.querysFrom">Downloads and article abstract page views from</message>
+	<message key="plugins.generic.statistics.querysTo">to</message>
+	<message key="plugins.generic.statistics.viewByCountries">Views</message>
+	<message key="plugins.generic.statistics.downloadByCountries">Downloads</message>
+	<message key="plugins.generic.statistics.viewAbstracts">Views</message>
+	<message key="plugins.generic.statistics.viewAbstractsByCountry">Article abstract page views</message>
+	<message key="plugins.generic.statistics.viewDownloads">Donwloads</message>
+	<message key="plugins.generic.statistics.lastYears2">Last 6 years</message>
+	<message key="plugins.generic.statistics.byMonthArticle">Last 12 months</message>
+	<message key="plugins.generic.statistics.byMonth">For months of the year</message>
+	<message key="plugins.generic.statistics.querysToTheArticle">Queries to the article</message>
+	<message key="plugins.generic.statistics.querysFromArticle">Queries to the article from</message>
+	<message key="plugins.generic.statistics.issues">Issues</message>
+	<message key="plugins.generic.statistics.volume">Volume</message>
+	<message key="plugins.generic.statistics.number">Number</message>
+	<message key="plugins.generic.statistics.year">Year</message>
+	<message key="plugins.generic.statistics.rankingDownloadArticles">Ranking most downloaded articles</message>
+	<message key="plugins.generic.statistics.rankingAbstractArticles">Ranking article abstract page views</message>
+	<message key="plugins.generic.statistics.rankingIssues">Ranking issue table of contents page views</message>
+	
+</locale>
