@@ -19,13 +19,13 @@ This plugin is the updated version of the old plugin, published on 2013 (for OJS
 2.4.3
 ```
 # Download and Installation
-- Download the code as a .zip. You get a ```statistics-master.zip``` file
+- Download the code as a .zip file. You get a ```statistics-master.zip``` file
 
 - Uncompress the .zip file. You get the directory ```statistics-master/```
 
 - Rename the directory ```statistics-master/``` to ```statistics/```
 
-- Compress ```statistics/```directory to tar.gz (the OJS plugins must be compressed as a .tar.gz file)
+- Compress ```statistics/```directory to .tar.gz (the OJS plugins must be compressed as a .tar.gz files)
 ```
     tar -pczf statistics.tar.gz statistics/
 ```
