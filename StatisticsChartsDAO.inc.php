@@ -67,7 +67,7 @@ class StatisticsChartsDAO extends MetricsDAO {
 		return $returner;
 	}
 	
-	function getMetricsMostPopularByType($journalId, $assoc_type, $year){
+	function getMetricsMostPopularByType($journalId, $assoc_type, $year, $primaryLocale){
 		$result =& $this->retrieve(
 			'SELECT aset.setting_value, SUM(m.metric) FROM metrics as m '. 
 			'INNER JOIN article_settings AS aset ON m.submission_id = aset.article_id '.
@@ -75,9 +75,9 @@ class StatisticsChartsDAO extends MetricsDAO {
 			'AND m.assoc_type = ? '.
 			'AND SUBSTR(month,1,4) = ? '.
 			'AND aset.setting_name = "title" '.
-			'AND aset.locale = "es_ES" '.
+			'AND aset.locale = ? '.
 			'GROUP BY m.assoc_id order by SUM(m.metric) DESC LIMIT 20;',
-			array((int) $journalId, (int) $assoc_type, $year)
+			array((int) $journalId, (int) $assoc_type, $year, $primaryLocale)
 		);
 		
 		$returner = null;
@@ -91,7 +91,7 @@ class StatisticsChartsDAO extends MetricsDAO {
 		return $returner;
 	}
 	
-	function getMetricsIssues($journalId, $year){
+	function getMetricsIssues($journalId, $year, $primaryLocale){
 		$result =& $this->retrieve(
 			'SELECT i.volume, i.number, i.year, iset.setting_value, SUM(m.metric) FROM metrics as m '. 
 			'inner join issues as i on m.issue_id = i.issue_id '.
@@ -100,11 +100,11 @@ class StatisticsChartsDAO extends MetricsDAO {
 			'AND m.assoc_type = 259 '.
 			'AND SUBSTR(month,1,4) = ? '.
 			'AND iset.setting_name = "title" '.
-			'AND iset.locale = "es_ES" '.
+			'AND iset.locale = ? '.
 			'AND i.published = 1 '.
 			'GROUP BY m.issue_id '.
 			'ORDER BY SUM(m.metric) DESC LIMIT 20;',
-			array((int) $journalId, $year)
+			array((int) $journalId, $year, $primaryLocale)
 		);
 		
 		$returner = null;
