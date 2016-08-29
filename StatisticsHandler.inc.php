@@ -186,6 +186,7 @@ class StatisticsHandler extends Handler {
 	function getStatisticsMostPopularDownload(){
 	
 		$journal =& Request::getJournal();
+		$primaryLocale = $journal->getPrimaryLocale();
 
 		$year = Request::getUserVar('year');
 		if (empty($year)) $year = date('Y');
@@ -194,7 +195,7 @@ class StatisticsHandler extends Handler {
 		
 		$statisticsChartsDAO =& DAORegistry::getDAO('StatisticsChartsDAO');
 			
-		$result = $statisticsChartsDAO->getMetricsMostPopularByType($journal->getId(), $type, $year);
+		$result = $statisticsChartsDAO->getMetricsMostPopularByType($journal->getId(), $type, $year, $primaryLocale);
 		
 		$i = 0;
 		$obj = array();
@@ -216,6 +217,7 @@ class StatisticsHandler extends Handler {
 	function getStatisticsIssues(){
 		
 		$journal =& Request::getJournal();
+		$primaryLocale = $journal->getPrimaryLocale();
 
 		$year = Request::getUserVar('year');
 		if (empty($year)) $year = date('Y');
@@ -224,7 +226,7 @@ class StatisticsHandler extends Handler {
 		$statisticsChartsDAO =& DAORegistry::getDAO('StatisticsChartsDAO');
 			
 		//statistics abstract
-		$result = $statisticsChartsDAO->getMetricsIssues($journal->getId(), $year);
+		$result = $statisticsChartsDAO->getMetricsIssues($journal->getId(), $year, $primaryLocale);
 		
 		$i = 0;
 		$obj = array();
