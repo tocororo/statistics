@@ -7,13 +7,15 @@
   * Copyright (c) 2016 Fran Máñez - Universitat Politècnica de Catalunya (UPC)
   * fran.upc@gmail.com
   *
+  * Updated for OJS 3.x by: Reewos Talla <reewos.etc@gmail.com>
+  *
   * Plugin version information.
   -->
 <version>
 	<application>statistics</application>
 	<type>plugins.generic</type>
-	<release>1.0.0.0</release>
-	<date>2016-08-25</date>
+	<release>2.0.0.0</release>
+	<date>2020-01-13</date>
 	<lazy-load>1</lazy-load>
 	<sitewide>1</sitewide>
 	<class>StatisticsPlugin</class>

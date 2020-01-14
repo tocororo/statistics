@@ -4,19 +4,28 @@
  * Copyright (c) 2016 Fran Máñez - Universitat Politècnica de Catalunya (UPC)
  * fran.upc@gmail.com
  *
+ * Updated for OJS 3.x by: Reewos Talla <reewos.etc@gmail.com>
+ *
+ *
  *}
  
 {strip}
 {assign var="pageTitle" value="plugins.generic.statistics.name"}
-{include file="common/header.tpl"}
+{include file="frontend/components/header.tpl"}
 {/strip}
 
+<div id="content">
+
 <head>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="{$baseUrl}/plugins/generic/statistics/js/bootstrap-switch.min.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="{$baseUrl}/plugins/generic/statistics/css/bootstrap-statistics.css" type="text/css" />
 	<link rel="stylesheet" href="{$baseUrl}/plugins/generic/statistics/css/bootstrap-switch.min.css" type="text/css" />
 	<link rel="stylesheet" href="{$baseUrl}/plugins/generic/statistics/css/range.css" type="text/css" />
+	
 </head>
 
+<h1>Estadísticas de los artículos</h1>
 
 <script language="javascript">
 	{literal}
@@ -126,7 +135,7 @@
 			
 			$yearSelected = $('#year').text();
 			
-			jQuery.getJSON(base_location+'/getStatisticsMostPopularDownload?year='+$yearSelected+"&type=260", null, function(data) {
+			jQuery.getJSON(base_location+'/getStatisticsMostPopularDownload?year='+$yearSelected+"&type=515", null, function(data) {
 
 				optionsArticleDownload.series[0].data = [];
 
@@ -152,7 +161,7 @@
 			
 			$yearSelected = $('#year').text();
 			
-			jQuery.getJSON(base_location+'/getStatisticsMostPopularDownload?year='+$yearSelected+"&type=257", null, function(data) {
+			jQuery.getJSON(base_location+'/getStatisticsMostPopularDownload?year='+$yearSelected+"&type=1048585", null, function(data) {
 
 				optionsArticleAbstract.series[0].data = [];
 
@@ -503,23 +512,7 @@
 		 *         			 	EVENTS
 		 ***********************************************************/
 
-		$("#btn3D").bootstrapSwitch();
-
 		$("#slider").hide();
-
-		$('input[name="btn3D"]').on('switchChange.bootstrapSwitch', function(event, state) {
-			optionsMonth.chart.options3d.enabled = state;
-			optionsByYear.chart.options3d.enabled = state;
-
-	    	chartMonth = new Highcharts.Chart(optionsMonth);
-		    chartByYear = new Highcharts.Chart(optionsByYear);
-
-	    	if(state) $("#slider").show();
-	    	else $("#slider").hide();
-
-	    	resetValues();
-		});
-
 		
 		$('[data-toggle="tab"]').click(function(e) {
 		    var $this = $(this);
@@ -530,9 +523,6 @@
 				jQuery.fn.updateChartMonth();
 
 				$('#btnGroup button').removeAttr('disabled');
-				$('#divBtn3D').show();
-				if(typeChart == 'line') deactivate3D();
-				if($('#btn3D').bootstrapSwitch('state')) $('#slider').show();
 				
 			}else if(href == "#tabYear"){
 				tabSelected = "tabYear";
@@ -540,9 +530,6 @@
 				jQuery.fn.updateChartByYear();
 				
 				$('#btnGroup button').removeAttr('disabled');
-				$('#divBtn3D').show();
-				if(typeChart == 'line') deactivate3D();
-				if($('#btn3D').bootstrapSwitch('state')) $('#slider').show();
 
 				
 			}else if(href == "#tabByCountry"){
@@ -553,7 +540,6 @@
 				jQuery.fn.updateChartPaisesDownload();
 				
 				$('#btnGroup button').attr('disabled','disabled');
-				$('#divBtn3D').hide();
 				$('#slider').hide();
 				
 			}else if(href == "#tabArticleDownload"){
@@ -562,7 +548,6 @@
 				jQuery.fn.updateChartArticleDownload();
 				
 				$('#btnGroup button').attr('disabled','disabled');
-				$('#divBtn3D').hide();
 				$('#slider').hide();
 				
 			}else if(href == "#tabArticleAbstract"){
@@ -571,7 +556,6 @@
 				jQuery.fn.updateChartArticleAbstract();
 
 				$('#btnGroup button').attr('disabled','disabled');
-				$('#divBtn3D').hide();
 				$('#slider').hide();
 				
 			}else if(href == "#tabIssues"){
@@ -580,7 +564,6 @@
 				jQuery.fn.updateChartIssues();
 
 				$('#btnGroup button').attr('disabled','disabled');
-				$('#divBtn3D').hide();
 				$('#slider').hide();
 			}
 
@@ -649,8 +632,6 @@
 			    chartByYear = new Highcharts.Chart(optionsByYear);
 			}
 
-	    	activate3D();
-	    	
 			//reset
 	    	resetValues();
 
@@ -674,8 +655,6 @@
 			    chartByYear = new Highcharts.Chart(optionsByYear);
 			}
 
-			activate3D();
-	    	
 			//reset
 	    	resetValues();
 	    });
@@ -698,22 +677,10 @@
 			    chartByYear = new Highcharts.Chart(optionsByYear);
 			}
 
-	    	deactivate3D();
-	    	
 	    	//reset
 	    	resetValues();
 	    });
 
-	    function deactivate3D() {
-	    	state = $('#btn3D').bootstrapSwitch('state');
-	    	if(state) $("#btn3D").bootstrapSwitch("toggleState");
-	    	$('#slider').hide();
-		    $('#divBtn3D').hide();
-	    }
-
-	    function activate3D() {
-	    	$('#divBtn3D').show();
-	    }
 	    
 	    function showValues() {
 	        $('#R0-value').html(chartMonth.options.chart.options3d.alpha);
@@ -772,9 +739,6 @@
 			  	<button type="button" name="typeChart" id="btnTypeLine" class="btn btn-default">{translate key="plugins.generic.statistics.lines"}</button>
 			</div>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<div class="class-3d" id="divBtn3D" style="display: inline-block;">
-				<input id="btn3D" type="checkbox" name="btn3D" data-label-text="3D" data-size="small">
-			</div>
 		</div>
 	</div>
 </div>
@@ -871,4 +835,8 @@
 	
 </div>
 
-{include file="common/footer.tpl"}
+
+
+</div>
+
+{include file="frontend/components/footer.tpl"}

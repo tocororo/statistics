@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @file plugins/generic/statistics/StatisticsPlugin.inc.php
- *
- * Copyright (c) 2016 Fran Máñez - Universitat Politècnica de Catalunya (UPC)
- * fran.upc@gmail.com
- *
- * @class StatisticsPlugin
- *
- */
+  * @file plugins/generic/statistics/StatisticsPlugin.inc.php
+  *
+  * Copyright (c) 2016 Fran Máñez - Universitat Politècnica de Catalunya (UPC)
+  * fran.upc@gmail.com
+  *
+  * @class StatisticsPlugin
+  *
+  */
 
 import('lib.pkp.classes.plugins.GenericPlugin');
 
@@ -19,7 +19,7 @@ class StatisticsPlugin extends GenericPlugin {
 	 * @return boolean True iff plugin initialized successfully; if false,
 	 * 	the plugin will not be registered.
 	 */
-	function register($category, $path) {
+	function register($category, $path, $mainContextId = NULL) {
 		$success = parent::register($category, $path);
 		if ($success && $this->getEnabled()) {
 
@@ -102,8 +102,8 @@ class StatisticsPlugin extends GenericPlugin {
 	 * @param $message string Location for the plugin to put a result msg
  	 * @return boolean
  	 */
-	function manage($verb, $args, &$message) {
-		if (!parent::manage($verb, $args, $message)) return false;
+	function manage($args, $request) {
+		if (!parent::manage($verb, $args)) return false;
 		switch ($verb) {
 			case 'statistics':
 				Request::redirect(null, 'statistics');

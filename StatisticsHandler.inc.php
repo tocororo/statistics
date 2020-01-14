@@ -1,21 +1,21 @@
 <?php
 
 /**
- * @file plugins/generic/statistics/StatisticsHandler.inc.php
- *
- * Copyright (c) 2016 Fran Máñez - Universitat Politècnica de Catalunya (UPC)
- * fran.upc@gmail.com
- *
- * @class StatisticsHandler
- *
- */
+  * @file plugins/generic/statistics/StatisticsHandler.inc.php
+  *
+  * Copyright (c) 2016 Fran Máñez - Universitat Politècnica de Catalunya (UPC)
+  * fran.upc@gmail.com
+  *
+  * Updated for OJS 3.x by: Reewos Talla <reewos.etc@gmail.com>
+  *
+  * @class StatisticsHandler
+  *
+  */
 
 import('classes.handler.Handler');
 
-define('STATISTICS_METRICS_ASSOCTYPE_HOME', 256);
-define('STATISTICS_METRICS_ASSOCTYPE_TABLECONTENTS', 259);
-define('STATISTICS_METRICS_ASSOCTYPE_ABSTRACT', 257);
-define('STATISTICS_METRICS_ASSOCTYPE_DOWNLOAD', 260);
+define('STATISTICS_METRICS_ASSOCTYPE_ABSTRACT', 1048585);
+define('STATISTICS_METRICS_ASSOCTYPE_DOWNLOAD', 515);
 
 class StatisticsHandler extends Handler {
 
@@ -23,33 +23,34 @@ class StatisticsHandler extends Handler {
 	 * Constructor
 	 **/
 	function StatisticsHandler() {
-		parent::Handler();
+		parent::__construct();
 	}
 	
 	/**
 	 * Display the main log analyzer page.
 	 */
-	function index() {
+	function index($args, $request) {
 		//this plugin depends on 'Counter Plugin'
 		//$plugins =& PluginRegistry::getPlugins();
 		
-		$this->validate();
-		$this->setupTemplate();
+		$this->validate(null, null);
+		$this->setupTemplate(true);
 		$plugin =& $this->plugin;
 
 		$templateManager =& TemplateManager::getManager();
 		
+		
 		// library highcharts jquery
-		$templateManager->addJavaScript('plugins/generic/statistics/js/highcharts/highcharts.js');
-		$templateManager->addJavaScript('plugins/generic/statistics/js/highcharts/highcharts-3d.js');
-		$templateManager->addJavaScript('plugins/generic/statistics/js/highcharts/themes/grid-light.js');
-		$templateManager->addJavaScript('plugins/generic/statistics/js/highcharts/modules/exporting.js');
+		$templateManager->addJavaScript('highcharts',$request->getBaseUrl().'/plugins/generic/statistics/js/highcharts/highcharts.js',array('contexts'));
+		$templateManager->addJavaScript('highcharts-3d',$request->getBaseUrl().'/plugins/generic/statistics/js/highcharts/highcharts-3d.js',array('contexts'));
+		$templateManager->addJavaScript('grid-light',$request->getBaseUrl().'/plugins/generic/statistics/js/highcharts/themes/grid-light.js',array('contexts'));
+		$templateManager->addJavaScript('exporting',$request->getBaseUrl().'/plugins/generic/statistics/js/highcharts/modules/exporting.js',array('contexts'));
 		
-		$templateManager->addJavaScript('plugins/generic/statistics/js/jquery-1.11.3.min.js');
-		$templateManager->addJavaScript('plugins/generic/statistics/js/bootstrap.min.js');
-		$templateManager->addJavaScript('plugins/generic/statistics/js/bootstrap-switch.min.js');
+		$templateManager->addJavaScript('bootstrap',$request->getBaseUrl().'/plugins/generic/statistics/js/bootstrap.min.js',array('contexts'));
+		$templateManager->addJavaScript('bootstrap-switch',$request->getBaseUrl().'/plugins/generic/statistics/js/bootstrap-switch.min.js',array('contexts'));
 		
-		$templateManager->display($plugin->getTemplatePath() . 'index.tpl');
+		//$templateManager->display('/frontend/pages/statistics.tpl');
+		$templateManager->display('../plugins/generic/statistics/index.tpl');
 	}
 	
 	/**
@@ -226,7 +227,7 @@ class StatisticsHandler extends Handler {
 		$statisticsChartsDAO =& DAORegistry::getDAO('StatisticsChartsDAO');
 			
 		//statistics abstract
-		$result = $statisticsChartsDAO->getMetricsIssues($journal->getId(), $year, $primaryLocale);
+		$result = $statisticsChartsDAO->getMetricsIssues($journal->getId(),STATISTICS_METRICS_ASSOCTYPE_ABSTRACT, $year, $primaryLocale);
 		
 		$i = 0;
 		$obj = array();
@@ -247,7 +248,7 @@ class StatisticsHandler extends Handler {
 	 * Redirects to the user index page if not properly authenticated.
 	 * @param $canRedirect boolean Whether or not to redirect if the user cannot be validated; if not, the script simply terminates.
 	 */
-	function validate($canRedirect = true) {
+	function validate($requiredContexts = NULL, $request = NULL) {
 		parent::validate();
 		$plugin =& Registry::get('plugin');
 		$this->plugin =& $plugin;

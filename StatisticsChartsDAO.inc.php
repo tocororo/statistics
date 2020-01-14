@@ -1,14 +1,16 @@
 <?php
 
 /**
- * @file plugins/generic/statistics/StatisticsChartsDAO.inc.php
- *
- * Copyright (c) 2016 Fran Máñez - Universitat Politècnica de Catalunya (UPC)
- * fran.upc@gmail.com
- *
- * @class StatisticsChartsDAO
- *
- */
+  * @file plugins/generic/statistics/StatisticsChartsDAO.inc.php
+  *
+  * Copyright (c) 2016 Fran Máñez - Universitat Politècnica de Catalunya (UPC)
+  * fran.upc@gmail.com
+  *
+  * Updated for OJS 3.x by: Reewos Talla <reewos.etc@gmail.com>
+  *
+  * @class StatisticsChartsDAO
+  *
+  */
 
 import('classes.statistics.MetricsDAO');
 
@@ -70,13 +72,13 @@ class StatisticsChartsDAO extends MetricsDAO {
 	function getMetricsMostPopularByType($journalId, $assoc_type, $year, $primaryLocale){
 		$result =& $this->retrieve(
 			'SELECT aset.setting_value, SUM(m.metric) FROM metrics as m '. 
-			'INNER JOIN article_settings AS aset ON m.submission_id = aset.article_id '.
+			'INNER JOIN submission_settings AS aset ON m.submission_id = aset.submission_id '.
 			'WHERE m.context_id = ? '.
 			'AND m.assoc_type = ? '.
 			'AND SUBSTR(month,1,4) = ? '.
-			'AND aset.setting_name = "title" '.
+			"AND aset.setting_name = 'title' ".
 			'AND aset.locale = ? '.
-			'GROUP BY m.assoc_id order by SUM(m.metric) DESC LIMIT 20;',
+			'GROUP BY aset.setting_value order by SUM(m.metric) DESC LIMIT 20;',
 			array((int) $journalId, (int) $assoc_type, $year, $primaryLocale)
 		);
 		
@@ -91,20 +93,20 @@ class StatisticsChartsDAO extends MetricsDAO {
 		return $returner;
 	}
 	
-	function getMetricsIssues($journalId, $year, $primaryLocale){
+	function getMetricsIssues($journalId, $assoc_type, $year, $primaryLocale){
 		$result =& $this->retrieve(
 			'SELECT i.volume, i.number, i.year, iset.setting_value, SUM(m.metric) FROM metrics as m '. 
-			'inner join issues as i on m.issue_id = i.issue_id '.
+			'inner join issues as i on m.assoc_object_id = i.issue_id '.
 			'inner join issue_settings as iset on i.issue_id= iset.issue_id '.
 			'WHERE m.context_id = ? '.
-			'AND m.assoc_type = 259 '.
+			'AND m.assoc_type = ? '.
 			'AND SUBSTR(month,1,4) = ? '.
-			'AND iset.setting_name = "title" '.
+			"AND iset.setting_name = 'title' ".
 			'AND iset.locale = ? '.
 			'AND i.published = 1 '.
-			'GROUP BY m.issue_id '.
+			'GROUP BY i.volume,i.number,i.year,iset.setting_value '.
 			'ORDER BY SUM(m.metric) DESC LIMIT 20;',
-			array((int) $journalId, $year, $primaryLocale)
+			array((int) $journalId, (int) $assoc_type, $year, $primaryLocale)
 		);
 		
 		$returner = null;
