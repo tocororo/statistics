@@ -22,10 +22,109 @@
 	<link rel="stylesheet" href="{$baseUrl}/plugins/generic/statistics/css/bootstrap-statistics.css" type="text/css" />
 	<link rel="stylesheet" href="{$baseUrl}/plugins/generic/statistics/css/bootstrap-switch.min.css" type="text/css" />
 	<link rel="stylesheet" href="{$baseUrl}/plugins/generic/statistics/css/range.css" type="text/css" />
-	
 </head>
 
 <h1>Estadísticas de los artículos</h1>
+
+<div class="well">
+	 
+	<div class="row">
+		<div class="col-md-12">
+			<div class="btn-group btn-group-sm" id="divSpinner" role="group" aria-label="...">
+				<button type="button" name="btnPrev" id="btnPrev" class="btn btn-default">-</button>
+			  	<button type="button" name="valueYear" id="year" disabled="disabled" class="btn btn-default">{'Y'|date}</button>
+			  	<button type="button" name="btnNext" id="btnNext" class="btn btn-default">+</button>
+			</div>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<div class="btn-group btn-group-sm" id="btnGroup" role="group" aria-label="...">
+				<button type="button" name="typeChart" id="btnTypeColumns" class="btn btn-success">{translate key="plugins.generic.statistics.columns"}</button>
+			  	<button type="button" name="typeChart" id="btnTypeColumnsStack" class="btn btn-default">{translate key="plugins.generic.statistics.columnsStack"}</button>
+			  	<button type="button" name="typeChart" id="btnTypeLine" class="btn btn-default">{translate key="plugins.generic.statistics.lines"}</button>
+			</div>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</div>
+	</div>
+</div>
+
+<br>
+<div class="panel">
+	<ul class="nav nav-pills" id="myTab" >
+    	<li class="active"><a href="#tabMonth" data-toggle="tab" class="btnOLD">{translate key="plugins.generic.statistics.monthly"}</a></li>
+		<li><a href="#tabYear" data-toggle="tab">{translate key="plugins.generic.statistics.lastYears"}</a></li>
+		<li><a href="#tabWeek" data-toggle="tab">{translate key="plugins.generic.statistics.lastDays"}</a></li>
+		<li><a href="#tabByCountry" data-toggle="tab">{translate key="plugins.generic.statistics.byCountry"}</a></li>
+		<li><a href="#tabArticleDownload" data-toggle="tab">{translate key="plugins.generic.statistics.article"} (Download)</a></li>
+		<li><a href="#tabArticleAbstract" data-toggle="tab">{translate key="plugins.generic.statistics.article"} (Abstract)</a></li>
+		<li><a href="#tabIssues" data-toggle="tab">{translate key="plugins.generic.statistics.issues"}</a></li>
+	</ul>
+	<br><br>
+    <div class="tab-content">
+    	<div class="tab-pane active" id="tabMonth">
+			<div id="chartEstadisticasMonth" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
+		</div>
+        <div class="tab-pane" id="tabYear">
+        	<div id="chartEstadisticasByYear" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
+		</div>
+    	<div class="tab-pane active" id="tabWeek">
+			<div id="chartEstadisticasWeek" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
+		</div>
+		<div class="tab-pane" id="tabByCountry">
+			<div id="chartPaisesDownload" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
+			<br/>
+        	<div id="chartPaisesAbstract" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
+		</div>
+		<div class="tab-pane" id="tabArticleDownload">
+			<div id="chartArticleDownload" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
+		
+        	<table class="table table-striped table-hover">
+				<thead>
+			    	<tr>
+			      		<th class="text-center">#</th>
+			      		<th class="text-left">{translate key="plugins.generic.statistics.nameArticle"}</th>
+			      		<th class="text-center">{translate key="plugins.generic.statistics.downloads"}</th>
+			   	 	</tr>
+			  	</thead>
+			  	<tbody id="tbodyDownload">
+				</tbody>
+			</table>
+		</div>
+		<div class="tab-pane" id="tabArticleAbstract">
+			<div id="chartArticleAbstract" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+		
+        	<table class="table table-striped table-hover">
+				<thead>
+			    	<tr>
+			      		<th class="text-center">#</th>
+			      		<th class="text-left">{translate key="plugins.generic.statistics.nameArticle"}</th>
+			      		<th class="text-center">{translate key="plugins.generic.statistics.abstracts"}</th>
+			   	 	</tr>
+			  	</thead>
+			  	<tbody id="tbodyAbstract">
+				</tbody>
+			</table>
+		</div>
+		<div class="tab-pane" id="tabIssues">
+			<div id="chartIssues" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+		
+        	<table class="table table-striped table-hover">
+				<thead>
+			    	<tr>
+			      		<th class="text-center">#</th>
+			      		<th class="text-center">{translate key="plugins.generic.statistics.volume"}</th>
+			      		<th class="text-center">{translate key="plugins.generic.statistics.number"}</th>
+			      		<th class="text-center">{translate key="plugins.generic.statistics.year"}</th>
+			      		<th class="text-left">{translate key="plugins.generic.statistics.nameIssue"}</th>
+			      		<th class="text-center">{translate key="plugins.generic.statistics.abstracts"}</th>
+			   	 	</tr>
+			  	</thead>
+			  	<tbody id="tbodyIssues">
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	
+</div>
 
 <script language="javascript">
 	{literal}
@@ -45,6 +144,10 @@
 		 *        			FUNCTIONS UPDATE DATA
 		 ***********************************************************/
 
+		
+		
+		//Chart Days 
+		
 		
 		//Chart MONTH 
 		jQuery.fn.updateChartMonth = function() {
@@ -89,6 +192,26 @@
 			});
 		};
 
+		//Chart WEEK
+		jQuery.fn.updateChartWeek = function() {
+			optionsWeek.title.text = '{/literal}{translate key="plugins.generic.statistics.forWeek"}{literal}';
+			
+			jQuery.getJSON(base_location+'/getStatisticsWeek?year='+$('#year').text(), null, function(data) {
+
+				optionsWeek.series = new Array(data.length);
+
+				for (var i = 0; i < data.length; i++){
+					optionsWeek.series[i] = new Object();
+					optionsWeek.series[i].name = data[i].name;
+					optionsWeek.series[i].data = data[i].values;
+					optionsWeek.series[i].day = data[i].day;
+				}
+				//data[0].day = date(data[0].day);
+				
+				optionsWeek.xAxis.categories = data[0].day;
+				chartWeek = new Highcharts.Chart(optionsWeek);
+			});
+		};
 
 		//Chart COUNTRY ABSTRACT
 		jQuery.fn.updateChartPaisesAbstract = function() {
@@ -145,7 +268,9 @@
 
 					$("#tbodyDownload").append( '<tr>'+
 							'<td class="text-center success">'+(i+1)+'</td>'+
-						    '<td class="text-left">'+data[i].article+'</td>'+
+						    '<td class="text-left">'+
+							'<a href="http://revistas.amag.edu.pe/index.php/amag/article/view/'+data[i].id+'" class="pkpStatistics__itemLink">'+data[i].article+'</a>'+
+							'</td>'+
 						    '<td class="text-center">'+data[i].count+'</td>'+
 					      	'</tr>');
 				}
@@ -171,7 +296,9 @@
 
 					$("#tbodyAbstract").append( '<tr>'+
 							'<td class="text-center success">'+(i+1)+'</td>'+
-						    '<td class="text-left">'+data[i].article+'</td>'+
+						    '<td class="text-left">'+
+							'<a href="http://revistas.amag.edu.pe/index.php/amag/article/view/'+data[i].id+'">'+data[i].article+'</a>'+
+							'</td>'+
 						    '<td class="text-center">'+data[i].count+'</td>'+
 					      	'</tr>');
 				}
@@ -234,7 +361,7 @@
 	            text: '{/literal}{translate key="plugins.generic.statistics.byMonth"}{literal}'
 	        },
 	        xAxis: {
-	            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+	            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
 	            crosshair: true
 	        },
 	        yAxis: {
@@ -286,6 +413,55 @@
 	        },
 	        subtitle: {
 	            text: '{/literal}{translate key="plugins.generic.statistics.lastYears2"}{literal}'
+	        },
+	        xAxis: {
+	        	categories: [],
+	        	crosshair: true
+	        },
+	        yAxis: {
+	        	min: 0,
+	            title: {
+	        		text: '{/literal}{translate key="plugins.generic.statistics.queryNumbers"}{literal}'
+	            }
+	        },
+	        tooltip: {
+	            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+	            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+	                '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
+	            footerFormat: '</table>',
+	            shared: true,
+	            useHTML: true
+	        },
+	        plotOptions: {
+	            column: {
+	                pointPadding: 0.2,
+	                borderWidth: 0
+	            }
+	        },
+	        series: []
+		}
+
+
+		//*******************************************************************************************
+		
+		//Chart statistics week
+		var chartWeek;
+		var optionsWeek = {
+			chart: {
+	            renderTo: 'chartEstadisticasWeek',
+	            type: typeChart,
+	            options3d: {
+	                enabled: false,
+	                alpha: 10,
+	                beta: 25,
+	                depth: 70
+	            }
+	        },
+	        title: {
+	            text: ''
+	        },
+	        subtitle: {
+	            text: '{/literal}{translate key="plugins.generic.statistics.lastDays2"}{literal}'
 	        },
 	        xAxis: {
 	        	categories: [],
@@ -512,7 +688,6 @@
 		 *         			 	EVENTS
 		 ***********************************************************/
 
-		$("#slider").hide();
 		
 		$('[data-toggle="tab"]').click(function(e) {
 		    var $this = $(this);
@@ -532,6 +707,14 @@
 				$('#btnGroup button').removeAttr('disabled');
 
 				
+			}else if(href == "#tabWeek"){
+				tabSelected = "tabWeek";
+				if(chartWeek) chartWeek.destroy();
+				jQuery.fn.updateChartWeek();
+				
+				$('#btnGroup button').removeAttr('disabled');
+
+				
 			}else if(href == "#tabByCountry"){
 				tabSelected = "tabByCountry";
 				if(chartPaisesAbstract) chartPaisesAbstract.destroy();
@@ -540,7 +723,6 @@
 				jQuery.fn.updateChartPaisesDownload();
 				
 				$('#btnGroup button').attr('disabled','disabled');
-				$('#slider').hide();
 				
 			}else if(href == "#tabArticleDownload"){
 				tabSelected = "tabArticleDownload";
@@ -548,7 +730,6 @@
 				jQuery.fn.updateChartArticleDownload();
 				
 				$('#btnGroup button').attr('disabled','disabled');
-				$('#slider').hide();
 				
 			}else if(href == "#tabArticleAbstract"){
 				tabSelected = "tabArticleAbstract";
@@ -556,7 +737,7 @@
 				jQuery.fn.updateChartArticleAbstract();
 
 				$('#btnGroup button').attr('disabled','disabled');
-				$('#slider').hide();
+				 
 				
 			}else if(href == "#tabIssues"){
 				tabSelected = "tabIssues";
@@ -564,7 +745,7 @@
 				jQuery.fn.updateChartIssues();
 
 				$('#btnGroup button').attr('disabled','disabled');
-				$('#slider').hide();
+				 
 			}
 
 		    $this.tab('show');
@@ -625,11 +806,15 @@
 		   	optionsMonth.plotOptions.column.stacking = '';
 		   	optionsByYear.chart.type = 'column';
 		   	optionsByYear.plotOptions.column.stacking = '';
+			optionsWeek.chart.type = 'column';
+		   	optionsWeek.plotOptions.column.stacking = '';
 
 	    	if(tabSelected == "tabMonth"){
 		    	chartMonth = new Highcharts.Chart(optionsMonth);
 			}else if(tabSelected == "tabYear"){
 			    chartByYear = new Highcharts.Chart(optionsByYear);
+			}else if(tabSelected == "tabWeek"){
+			    chartWeek = new Highcharts.Chart(optionsWeek);
 			}
 
 			//reset
@@ -642,17 +827,22 @@
 	    	$("#btnTypeColumns").attr('class', 'btn btn-default');
 	    	$("#btnTypeColumnsStack").attr('class', 'btn btn-success');
 	    	$("#btnTypeLine").attr('class', 'btn btn-default');
+			
 
 	    	typeChart = 'column';
 			optionsMonth.chart.type = 'column';
 		   	optionsMonth.plotOptions.column.stacking = 'normal';
 		   	optionsByYear.chart.type = 'column';
 		   	optionsByYear.plotOptions.column.stacking = 'normal';
+			optionsWeek.chart.type = 'column';
+		   	optionsWeek.plotOptions.column.stacking = 'normal';
 
 	    	if(tabSelected == "tabMonth"){
 		    	chartMonth = new Highcharts.Chart(optionsMonth);
 			}else if(tabSelected == "tabYear"){
 			    chartByYear = new Highcharts.Chart(optionsByYear);
+			}else if(tabSelected == "tabWeek"){
+			    chartWeek = new Highcharts.Chart(optionsWeek);
 			}
 
 			//reset
@@ -671,10 +861,15 @@
 			optionsMonth.plotOptions.column.stacking = '';
 			optionsByYear.chart.type = 'line';
 			optionsByYear.plotOptions.column.stacking = '';
+			optionsWeek.chart.type = 'line';
+		   	optionsWeek.plotOptions.column.stacking = '';
+
 	    	if(tabSelected == "tabMonth"){
 		    	chartMonth = new Highcharts.Chart(optionsMonth);
 			}else if(tabSelected == "tabYear"){
 			    chartByYear = new Highcharts.Chart(optionsByYear);
+			}else if(tabSelected == "tabWeek"){
+			    chartWeek = new Highcharts.Chart(optionsWeek);
 			}
 
 	    	//reset
@@ -682,160 +877,10 @@
 	    });
 
 	    
-	    function showValues() {
-	        $('#R0-value').html(chartMonth.options.chart.options3d.alpha);
-	        $('#R1-value').html(chartMonth.options.chart.options3d.beta);
-	    }
-
-	    function resetValues() {
-	        $('#R0-value').html(10);
-	        $('#R1-value').html(25);
-
-	        var R0 = document.getElementById('R0');
-	        var R1 = document.getElementById('R1');
-        	R0.value=parseInt(10);
-            R1.value=parseInt(25);
-	    }
-
-	    // Activate the sliders
-	    $('#R0').on('change', function () {
-	        chartMonth.options.chart.options3d.alpha = this.value;
-	        chartByYear.options.chart.options3d.alpha = this.value;
-	        
-	        showValues();
-
-	        chartMonth.redraw(false);
-	        chartByYear.redraw(false);
-	    });
-	    $('#R1').on('change', function () {
-	    	chartMonth.options.chart.options3d.beta = this.value;
-	    	chartByYear.options.chart.options3d.alpha = this.value;
-		    
-	        showValues();
-	        
-	        chartMonth.redraw(false);
-	        chartByYear.redraw(false);
-	    });
-
-	    
 	}); //end ready function
 
  	{/literal}
 </script>
-
-<div class="well">
-	 
-	<div class="row">
-		<div class="col-md-12">
-			<div class="btn-group btn-group-sm" id="divSpinner" role="group" aria-label="...">
-				<button type="button" name="btnPrev" id="btnPrev" class="btn btn-default">-</button>
-			  	<button type="button" name="valueYear" id="year" disabled="disabled" class="btn btn-default">{'Y'|date}</button>
-			  	<button type="button" name="btnNext" id="btnNext" class="btn btn-default">+</button>
-			</div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<div class="btn-group btn-group-sm" id="btnGroup" role="group" aria-label="...">
-				<button type="button" name="typeChart" id="btnTypeColumns" class="btn btn-success">{translate key="plugins.generic.statistics.columns"}</button>
-			  	<button type="button" name="typeChart" id="btnTypeColumnsStack" class="btn btn-default">{translate key="plugins.generic.statistics.columnsStack"}</button>
-			  	<button type="button" name="typeChart" id="btnTypeLine" class="btn btn-default">{translate key="plugins.generic.statistics.lines"}</button>
-			</div>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		</div>
-	</div>
-</div>
-
-<br>
-<div class="panel">
-	<ul class="nav nav-pills" id="myTab" >
-    	<li class="active"><a href="#tabMonth" data-toggle="tab" class="btnOLD">{translate key="plugins.generic.statistics.monthly"}</a></li>
-		<li><a href="#tabYear" data-toggle="tab">{translate key="plugins.generic.statistics.lastYears"}</a></li>
-		<li><a href="#tabByCountry" data-toggle="tab">{translate key="plugins.generic.statistics.byCountry"}</a></li>
-		<li><a href="#tabArticleDownload" data-toggle="tab">{translate key="plugins.generic.statistics.article"} (Download)</a></li>
-		<li><a href="#tabArticleAbstract" data-toggle="tab">{translate key="plugins.generic.statistics.article"} (Abstract)</a></li>
-		<li><a href="#tabIssues" data-toggle="tab">{translate key="plugins.generic.statistics.issues"}</a></li>
-	</ul>
-	<br><br>
-    <div class="tab-content">
-    	<div class="tab-pane active" id="tabMonth">
-			<div id="chartEstadisticasMonth" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
-		</div>
-        <div class="tab-pane" id="tabYear">
-        	<div id="chartEstadisticasByYear" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
-		</div>
-		<div class="tab-pane" id="tabByCountry">
-			<div id="chartPaisesDownload" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
-			<br/>
-        	<div id="chartPaisesAbstract" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
-		</div>
-		<div class="tab-pane" id="tabArticleDownload">
-			<div id="chartArticleDownload" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
-		
-        	<table class="table table-striped table-hover">
-				<thead>
-			    	<tr>
-			      		<th class="text-center">#</th>
-			      		<th class="text-left">{translate key="plugins.generic.statistics.nameArticle"}</th>
-			      		<th class="text-center">{translate key="plugins.generic.statistics.downloads"}</th>
-			   	 	</tr>
-			  	</thead>
-			  	<tbody id="tbodyDownload">
-				</tbody>
-			</table>
-		</div>
-		<div class="tab-pane" id="tabArticleAbstract">
-			<div id="chartArticleAbstract" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
-		
-        	<table class="table table-striped table-hover">
-				<thead>
-			    	<tr>
-			      		<th class="text-center">#</th>
-			      		<th class="text-left">{translate key="plugins.generic.statistics.nameArticle"}</th>
-			      		<th class="text-center">{translate key="plugins.generic.statistics.abstracts"}</th>
-			   	 	</tr>
-			  	</thead>
-			  	<tbody id="tbodyAbstract">
-				</tbody>
-			</table>
-		</div>
-		<div class="tab-pane" id="tabIssues">
-			<div id="chartIssues" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
-		
-        	<table class="table table-striped table-hover">
-				<thead>
-			    	<tr>
-			      		<th class="text-center">#</th>
-			      		<th class="text-center">{translate key="plugins.generic.statistics.volume"}</th>
-			      		<th class="text-center">{translate key="plugins.generic.statistics.number"}</th>
-			      		<th class="text-center">{translate key="plugins.generic.statistics.year"}</th>
-			      		<th class="text-left">{translate key="plugins.generic.statistics.nameIssue"}</th>
-			      		<th class="text-center">{translate key="plugins.generic.statistics.abstracts"}</th>
-			   	 	</tr>
-			  	</thead>
-			  	<tbody id="tbodyIssues">
-				</tbody>
-			</table>
-		</div>
-	</div>
-	
-	<div id="slider">
-		<br><br>
-		<div class="col-xs-5">
-			<div class="range range-primary">
-				<input id="R1" type="range" name="range" min="0" max="60" value="25" onchange="R1-value.value=value">
-				<output id="R1-value">25</output>
-			</div>
-		</div>
-	        
-	    <div class="col-xs-5">
-	    	<div class="range range-primary">
-	        	<input id="R0" type="range" name="range" min="0" max="60" value="10" onchange="R0-value.value=value">
-	            <output id="R0-value">10</output>
-			</div>
-		</div>
-	</div>
-	
-</div>
-
-
 
 </div>
 

@@ -16,6 +16,7 @@ import('classes.statistics.MetricsDAO');
 
 class StatisticsChartsDAO extends MetricsDAO {
 	
+	
 	function getMetricsMonthByType($journalId, $assoc_type, $year){
 		$result =& $this->retrieve(
 			'SELECT month, SUM(metric) FROM metrics WHERE context_id = ? AND assoc_type = ? AND SUBSTR(month,1,4) = ? GROUP BY month order by month ASC',
@@ -52,6 +53,25 @@ class StatisticsChartsDAO extends MetricsDAO {
 		return $returner;
 	}
 	
+	
+	function getMetricsWeekByType($journalId, $assoc_type){
+		$result =& $this->retrieve(
+			'SELECT day, SUM(metric) FROM metrics WHERE context_id = ? AND assoc_type = ? AND CAST(day as date) > current_date - 9 GROUP BY day order by day DESC LIMIT 7',
+			array((int) $journalId, (int) $assoc_type)
+		);
+		
+		$returner = null;
+		if ($result->RecordCount() != 0) {
+			$returner = $result->GetArray();
+		}
+
+		$result->Close();
+		unset($result);
+
+		return $returner;
+	}
+
+	
 	function getMetricsByCountryType($journalId, $assoc_type, $year){
 		$result =& $this->retrieve(
 			'SELECT country_id, SUM(metric) FROM metrics WHERE context_id = ? AND assoc_type = ? AND SUBSTR(month,1,4) = ? GROUP BY country_id order by SUM(metric) ASC LIMIT 20;',
@@ -71,14 +91,16 @@ class StatisticsChartsDAO extends MetricsDAO {
 	
 	function getMetricsMostPopularByType($journalId, $assoc_type, $year, $primaryLocale){
 		$result =& $this->retrieve(
-			'SELECT aset.setting_value, SUM(m.metric) FROM metrics as m '. 
+			"SELECT concat(segundo.setting_value,' ', aset.setting_value) as setting_value, SUM(m.metric), m.submission_id FROM metrics as m ". 
 			'INNER JOIN submission_settings AS aset ON m.submission_id = aset.submission_id '.
+			'INNER JOIN submission_settings AS segundo ON  aset.submission_id = segundo.submission_id '.
 			'WHERE m.context_id = ? '.
 			'AND m.assoc_type = ? '.
 			'AND SUBSTR(month,1,4) = ? '.
 			"AND aset.setting_name = 'title' ".
+			"AND segundo.setting_name = 'prefix' ".
 			'AND aset.locale = ? '.
-			'GROUP BY aset.setting_value order by SUM(m.metric) DESC LIMIT 20;',
+			'GROUP BY segundo.setting_value,aset.setting_value,m.submission_id order by SUM(m.metric) DESC LIMIT 20;',
 			array((int) $journalId, (int) $assoc_type, $year, $primaryLocale)
 		);
 		

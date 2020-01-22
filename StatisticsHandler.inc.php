@@ -53,9 +53,52 @@ class StatisticsHandler extends Handler {
 		$templateManager->display('../plugins/generic/statistics/index.tpl');
 	}
 	
+	
+		function getStatisticsWeek(){
+//		$this->validate();
+//		$this->setupTemplate(true);
+//		$plugin =& $this->plugin;
+
+		$journal =& Request::getJournal();
+
+		
+		//statistics report
+		$statisticsChartsDAO =& DAORegistry::getDAO('StatisticsChartsDAO');
+			
+		//statistics abstract
+		$result = $statisticsChartsDAO->getMetricsWeekByType($journal->getId(), STATISTICS_METRICS_ASSOCTYPE_ABSTRACT);
+		StatisticsHandler::dataForWeek($cols, $result);
+		StatisticsHandler::day($days, $result);
+		
+		$obj[0] = new stdClass();
+		$obj[0]->name = AppLocale::Translate('plugins.generic.statistics.viewAbstracts');
+		//$cols = array_column($result,'sum');
+		$obj[0]->values = array_reverse($cols);
+		$obj[0]->day = array_reverse($days);
+		unset($cols);
+		
+		//statistics download
+		$result = $statisticsChartsDAO->getMetricsWeekByType($journal->getId(), STATISTICS_METRICS_ASSOCTYPE_DOWNLOAD);
+		StatisticsHandler::dataForWeek($cols, $result);
+		StatisticsHandler::day($days, $result);
+		
+		$obj[1] = new stdClass();
+		$obj[1]->name = AppLocale::Translate('plugins.generic.statistics.viewDownloads');
+		//$cols = array_column($result,'sum');
+		$obj[1]->values = array_reverse($cols);
+		$obj[1]->day = array_reverse($days);
+		unset($cols);
+
+		echo json_encode($obj);
+	}
+	
+	
+	
+	
 	/**
 	 * Get statistics (download and abstract) by month year from table METRICS
 	 */
+
 	function getStatisticsByMonth(){
 //		$this->validate();
 //		$this->setupTemplate(true);
@@ -202,7 +245,7 @@ class StatisticsHandler extends Handler {
 		$obj = array();
 		if($result!=null){
 			foreach ($result as $record) {
-				$object = (object) array('article' => $record[0], 'count' => $record[1]);
+				$object = (object) array('article' => $record[0], 'count' => $record[1], 'id' => $record[2]);
 				$obj[] = $object;
 				$i++;
 			}
@@ -277,6 +320,23 @@ class StatisticsHandler extends Handler {
 		}
 	}
 	
+	private function dataForWeek(&$cols, $entries) {
+		if($entries == null) return;
+		$currTotal = 0;
+		foreach($entries as $entry) {
+			$currTotal += $entry[1];
+			$cols[]=$currTotal;
+		}
+	}
+
+	private function day(&$cols, $entries) {
+		if($entries == null) return;
+		foreach($entries as $entry) {
+			$currTotal = substr($entry[0],-2,2) . "/" . substr($entry[0],-4,2) . "/" . substr($entry[0],0,4) ;
+			$cols[]=$currTotal;
+		}
+	}
+	
 	private function dataForYear(&$cols, $entries, $year) {
 		if($entries == null) return;
 		$currTotal = 0;
@@ -290,6 +350,7 @@ class StatisticsHandler extends Handler {
 			$cols[]=$currTotal;
 		}
 	}
+
 }
 
 ?>
