@@ -19,7 +19,7 @@ class StatisticsChartsDAO extends MetricsDAO {
 	
 	function getMetricsMonthByType($journalId, $assoc_type, $year){
 		$result =& $this->retrieve(
-			'SELECT month, SUM(metric) FROM metrics WHERE context_id = ? AND assoc_type = ? AND SUBSTR(month,1,4) = ? GROUP BY month order by month ASC',
+			'SELECT month, SUM(metric) FROM metrics WHERE context_id = ? AND assoc_type = ? AND SUBSTR(month,1,4) = ? GROUP BY month order by month ASC;',
 			array((int) $journalId, (int) $assoc_type, $year)
 		);
 		
@@ -38,7 +38,7 @@ class StatisticsChartsDAO extends MetricsDAO {
 		$yearInit = $year-5;
 		$yearEnd = $year;
 		$result =& $this->retrieve(
-			'SELECT SUBSTR(month,1,4), SUM(metric) FROM metrics WHERE context_id = ? AND assoc_type = ? AND SUBSTR(month,1,4)>= ? AND SUBSTR(month,1,4)<= ? GROUP BY SUBSTR(month,1,4) order by SUBSTR(month,1,4) ASC',
+			'SELECT SUBSTR(month,1,4), SUM(metric) FROM metrics WHERE context_id = ? AND assoc_type = ? AND SUBSTR(month,1,4)>= ? AND SUBSTR(month,1,4)<= ? GROUP BY SUBSTR(month,1,4) order by SUBSTR(month,1,4) ASC;',
 			array((int) $journalId, (int) $assoc_type, $yearInit, $yearEnd)
 		);
 		
@@ -56,7 +56,7 @@ class StatisticsChartsDAO extends MetricsDAO {
 	
 	function getMetricsWeekByType($journalId, $assoc_type){
 		$result =& $this->retrieve(
-			'SELECT day, SUM(metric) FROM metrics WHERE context_id = ? AND assoc_type = ? AND CAST(day as date) > current_date - 9 GROUP BY day order by day DESC LIMIT 7',
+			'SELECT day, SUM(metric) FROM metrics WHERE context_id = ? AND assoc_type = ? AND CAST(day as date) > current_date - 9 GROUP BY day order by day DESC LIMIT 7;',
 			array((int) $journalId, (int) $assoc_type)
 		);
 		
