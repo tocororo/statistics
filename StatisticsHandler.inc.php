@@ -322,8 +322,8 @@ class StatisticsHandler extends Handler {
 	
 	private function dataForWeek(&$cols, $entries) {
 		if($entries == null) return;
-		$currTotal = 0;
 		foreach($entries as $entry) {
+			$currTotal = 0;
 			$currTotal += $entry[1];
 			$cols[]=$currTotal;
 		}
