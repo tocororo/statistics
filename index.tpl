@@ -24,7 +24,7 @@
 	<link rel="stylesheet" href="{$baseUrl}/plugins/generic/statistics/css/range.css" type="text/css" />
 </head>
 
-<h1>Estadísticas de los artículos</h1>
+<h1>{translate key="plugins.generic.statistics.titlePage"}</h1>
 
 <div class="well">
 	 
