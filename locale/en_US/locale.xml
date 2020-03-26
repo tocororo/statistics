@@ -49,5 +49,6 @@
 	<message key="plugins.generic.statistics.rankingDownloadArticles">Ranking most downloaded articles</message>
 	<message key="plugins.generic.statistics.rankingAbstractArticles">Ranking article abstract page views</message>
 	<message key="plugins.generic.statistics.rankingIssues">Ranking issue table of contents page views</message>
+	<message key="plugins.generic.statistics.titlePage">Statistics</message>
 	
 </locale>
