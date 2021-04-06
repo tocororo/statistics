@@ -47,14 +47,6 @@ class StatisticsPlugin extends GenericPlugin {
 		return __('plugins.generic.statistics.description');
 	}
 	
-	/**
-	 * Get the filename of the ADODB schema for this plugin.
-	 */
-	function getInstallSchemaFile() {
-		return $this->getPluginPath() . '/' . 'schema.xml';
-	}
-
-	
 	function displayHeaderLink($hookName, $params) {
 		$journal =& Request::getJournal();
 		if (!$journal) return false;
@@ -116,5 +108,3 @@ class StatisticsPlugin extends GenericPlugin {
 	}
 	
 }
-
-?>
