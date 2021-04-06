@@ -1,21 +1,18 @@
 <?php
-
 /**
   * @file plugins/generic/statistics/StatisticsHandler.inc.php
   *
   * Copyright (c) 2016 Fran Máñez - Universitat Politècnica de Catalunya (UPC)
   * fran.upc@gmail.com
   *
-  * Updated for OJS 3.x by: Reewos Talla <reewos.etc@gmail.com>
+  * Updated for OJS 3.x by: Reewos Talla <reewos.etc@gmail.com>, Conan <xdnan7@gmail.com>
   *
   * @class StatisticsHandler
   *
   */
 
 import('classes.handler.Handler');
-
-define('STATISTICS_METRICS_ASSOCTYPE_ABSTRACT', 1048585);
-define('STATISTICS_METRICS_ASSOCTYPE_DOWNLOAD', 515);
+import('classes.core.Application');
 
 class StatisticsHandler extends Handler {
 
@@ -54,37 +51,31 @@ class StatisticsHandler extends Handler {
 	}
 	
 	
-		function getStatisticsWeek(){
-//		$this->validate();
-//		$this->setupTemplate(true);
-//		$plugin =& $this->plugin;
-
-		$journal =& Request::getJournal();
-
+	function getStatisticsWeek() {
+		$request = Application::getRequest();
+		$journal = $request->getJournal();
 		
 		//statistics report
 		$statisticsChartsDAO =& DAORegistry::getDAO('StatisticsChartsDAO');
 			
 		//statistics abstract
-		$result = $statisticsChartsDAO->getMetricsWeekByType($journal->getId(), STATISTICS_METRICS_ASSOCTYPE_ABSTRACT);
+		$result = $statisticsChartsDAO->getMetricsWeekByType($journal->getId(), ASSOC_TYPE_SUBMISSION);
 		StatisticsHandler::dataForWeek($cols, $result);
 		StatisticsHandler::day($days, $result);
 		
 		$obj[0] = new stdClass();
 		$obj[0]->name = AppLocale::Translate('plugins.generic.statistics.viewAbstracts');
-		//$cols = array_column($result,'sum');
 		$obj[0]->values = array_reverse($cols);
 		$obj[0]->day = array_reverse($days);
 		unset($cols);
 		
 		//statistics download
-		$result = $statisticsChartsDAO->getMetricsWeekByType($journal->getId(), STATISTICS_METRICS_ASSOCTYPE_DOWNLOAD);
+		$result = $statisticsChartsDAO->getMetricsWeekByType($journal->getId(), ASSOC_TYPE_SUBMISSION_FILE);
 		StatisticsHandler::dataForWeek($cols, $result);
 		StatisticsHandler::day($days, $result);
 		
 		$obj[1] = new stdClass();
 		$obj[1]->name = AppLocale::Translate('plugins.generic.statistics.viewDownloads');
-		//$cols = array_column($result,'sum');
 		$obj[1]->values = array_reverse($cols);
 		$obj[1]->day = array_reverse($days);
 		unset($cols);
@@ -99,21 +90,18 @@ class StatisticsHandler extends Handler {
 	 * Get statistics (download and abstract) by month year from table METRICS
 	 */
 
-	function getStatisticsByMonth(){
-//		$this->validate();
-//		$this->setupTemplate(true);
-//		$plugin =& $this->plugin;
+	function getStatisticsByMonth() {
+		$request = Application::getRequest();
+		$journal =& $request->getJournal();
 
-		$journal =& Request::getJournal();
-
-		$year = Request::getUserVar('year');
+		$year = $request->getUserVar('year');
 		if (empty($year)) $year = date('Y');
 		
 		//statistics report
 		$statisticsChartsDAO =& DAORegistry::getDAO('StatisticsChartsDAO');
 			
 		//statistics abstract
-		$result = $statisticsChartsDAO->getMetricsMonthByType($journal->getId(), STATISTICS_METRICS_ASSOCTYPE_ABSTRACT, $year);
+		$result = $statisticsChartsDAO->getMetricsMonthByType($journal->getId(), ASSOC_TYPE_SUBMISSION, $year);
 		StatisticsHandler::dataForMonth($cols, $result);
 		$obj[0] = new stdClass();
 		$obj[0]->name = AppLocale::Translate('plugins.generic.statistics.viewAbstracts');
@@ -121,7 +109,7 @@ class StatisticsHandler extends Handler {
 		unset($cols);
 		
 		//statistics download
-		$result = $statisticsChartsDAO->getMetricsMonthByType($journal->getId(), STATISTICS_METRICS_ASSOCTYPE_DOWNLOAD, $year);
+		$result = $statisticsChartsDAO->getMetricsMonthByType($journal->getId(), ASSOC_TYPE_SUBMISSION_FILE, $year);
 		StatisticsHandler::dataForMonth($cols, $result);
 		$obj[1] = new stdClass();
 		$obj[1]->name = AppLocale::Translate('plugins.generic.statistics.viewDownloads');
@@ -135,17 +123,16 @@ class StatisticsHandler extends Handler {
 	/**
 	 * Get statistics (download and abstract) by year from table METRICS
 	 */
-	function getStatisticsByYear(){
-
-		$journal =& Request::getJournal();
-
-		$year = Request::getUserVar('year');
+	function getStatisticsByYear() {
+		$request = Application::getRequest();
+		$journal =& $request->getJournal();
+		$year = $request->getUserVar('year');
 		if (empty($year)) $year = date('Y');
 		
 		$statisticsChartsDAO =& DAORegistry::getDAO('StatisticsChartsDAO');
 			
 		//statistics abstract
-		$result = $statisticsChartsDAO->getMetricsYearByType($journal->getId(), STATISTICS_METRICS_ASSOCTYPE_ABSTRACT, $year);
+		$result = $statisticsChartsDAO->getMetricsYearByType($journal->getId(), ASSOC_TYPE_SUBMISSION, $year);
 		StatisticsHandler::dataForYear($cols, $result, $year);
 		$obj[0] = new stdClass();
 		$obj[0]->name = AppLocale::Translate('plugins.generic.statistics.viewAbstracts');
@@ -153,7 +140,7 @@ class StatisticsHandler extends Handler {
 		unset($cols);
 		
 		//statistics download
-		$result = $statisticsChartsDAO->getMetricsYearByType($journal->getId(), STATISTICS_METRICS_ASSOCTYPE_DOWNLOAD, $year);
+		$result = $statisticsChartsDAO->getMetricsYearByType($journal->getId(), ASSOC_TYPE_SUBMISSION_FILE, $year);
 		StatisticsHandler::dataForYear($cols, $result, $year);
 		$obj[1] = new stdClass();
 		$obj[1]->name = AppLocale::Translate('plugins.generic.statistics.viewDownloads');
@@ -161,129 +148,117 @@ class StatisticsHandler extends Handler {
 		unset($cols);
 		
 		echo json_encode($obj);
-		
 	}
 	
 	/**
 	 * Get statistics (abstract) by country from table METRICS
 	 */
-	function getStatisticsByCountryAbstract(){
-		
-		$journal =& Request::getJournal();
-
-		$year = Request::getUserVar('year');
+	function getStatisticsByCountryAbstract() {
+		$request = Application::getRequest();
+		$journal =& $request->getJournal();
+		$year = $request->getUserVar('year');
 		if (empty($year)) $year = date('Y');
 		
 		$statisticsChartsDAO =& DAORegistry::getDAO('StatisticsChartsDAO');
-			
-		$result = $statisticsChartsDAO->getMetricsByCountryType($journal->getId(), STATISTICS_METRICS_ASSOCTYPE_ABSTRACT, $year);
+		$result = $statisticsChartsDAO->getMetricsByCountryType($journal->getId(), ASSOC_TYPE_SUBMISSION, $year);
 		
 		$i = 0;
 		$obj = array();
 		
-		if($result!=null){
+		if (!empty($result)) {
 			foreach ($result as $record) {
 				$obj[$i] = new stdClass();
-				$obj[$i]->country = $record[0] == null ? "Others" : $record[0];
-				$obj[$i]->count = $record[1];
+				$obj[$i]->country = $record['country_id'] == null ? "Others" : $record['country_id'];
+				$obj[$i]->count = $record['sum_metric'];
 				$i++;
 			}
 		}
 		
-		
 		echo json_encode($obj);
-		
 	}
 	
 	/**
 	 * Get statistics (download) by country from table METRICS
 	 */
-	function getStatisticsByCountryDownload(){
-
-		$journal =& Request::getJournal();
-
-		$year = Request::getUserVar('year');
+	function getStatisticsByCountryDownload() {
+		$request = Application::getRequest();
+		$journal =& $request->getJournal();
+		$year = $request->getUserVar('year');
 		if (empty($year)) $year = date('Y');
 		
 		$statisticsChartsDAO =& DAORegistry::getDAO('StatisticsChartsDAO');
-			
-		$result = $statisticsChartsDAO->getMetricsByCountryType($journal->getId(), STATISTICS_METRICS_ASSOCTYPE_DOWNLOAD, $year);
+		$result = $statisticsChartsDAO->getMetricsByCountryType($journal->getId(), ASSOC_TYPE_SUBMISSION_FILE, $year);
 		$i = 0;
 		$obj = array();
-		
-		if($result!=null){
+		if (!empty($result)) {
 			foreach ($result as $record) {
 				$obj[$i] = new stdClass();
-				$obj[$i]->country = $record[0] == null ? "Others" : $record[0];
-				$obj[$i]->count = $record[1];
+				$obj[$i]->country = $record['country_id'] == null ? "Others" : $record['country_id'];
+				$obj[$i]->count = $record['sum_metric'];
 				$i++;
 			}
 		}
 		
 		echo json_encode($obj);
-		
 	}
 	
 	/**
 	 * Get statistics (download or abstract, request parameter) most popular articles from table METRICS
 	 */
-	function getStatisticsMostPopularDownload(){
-	
-		$journal =& Request::getJournal();
+	function getStatisticsMostPopularDownload() {
+		$request = Application::getRequest();
+		$journal =& $request->getJournal();
 		$primaryLocale = $journal->getPrimaryLocale();
 
-		$year = Request::getUserVar('year');
+		$year = $request->getUserVar('year');
 		if (empty($year)) $year = date('Y');
 		
-		$type = Request::getUserVar('type');
+		$type = $request->getUserVar('type');
 		
 		$statisticsChartsDAO =& DAORegistry::getDAO('StatisticsChartsDAO');
-			
 		$result = $statisticsChartsDAO->getMetricsMostPopularByType($journal->getId(), $type, $year, $primaryLocale);
 		
 		$i = 0;
 		$obj = array();
-		if($result!=null){
+		if (!empty($result)) {
 			foreach ($result as $record) {
-				$object = (object) array('article' => $record[0], 'count' => $record[1], 'id' => $record[2]);
+				$object = (object) array('article' => $record['setting_value'], 'count' => $record['sum_metric'], 'id' => $record['submission_id']);
 				$obj[] = $object;
 				$i++;
 			}
 		}
 		
 		echo json_encode($obj);
-		
 	}
 	
 	/**
 	 * Get statistics (download) most popular articles from table METRICS
 	 */
-	function getStatisticsIssues(){
-		
-		$journal =& Request::getJournal();
+	function getStatisticsIssues() {
+		$request = Application::getRequest();
+		$journal =& $request->getJournal();
 		$primaryLocale = $journal->getPrimaryLocale();
 
-		$year = Request::getUserVar('year');
+		$year = $request->getUserVar('year');
 		if (empty($year)) $year = date('Y');
 		
 		//statistics report
 		$statisticsChartsDAO =& DAORegistry::getDAO('StatisticsChartsDAO');
 			
 		//statistics abstract
-		$result = $statisticsChartsDAO->getMetricsIssues($journal->getId(),STATISTICS_METRICS_ASSOCTYPE_ABSTRACT, $year, $primaryLocale);
+		$result = $statisticsChartsDAO->getMetricsIssues($journal->getId(), ASSOC_TYPE_ISSUE, $year, $primaryLocale);
 		
 		$i = 0;
 		$obj = array();
-		if($result!=null){
+		if (!empty($result)) {
 			foreach ($result as $record) {
-				$object = (object) array('volume' => $record[0], 'number' => $record[1], 'year' => $record[2], 'name' => $record[3], 'count' => $record[4]);
+				$object = (object) array('volume' => $record['volume'], 'number' => $record['number'], 'year' => $record['year'], 'name' => $record['setting_value'], 'count' => $record['sum_metric']);
 				$obj[] = $object;
 				$i++;
 			}
 		}
 		
 		echo json_encode($obj);
-		
 	}
 	
 	/**
@@ -311,9 +286,9 @@ class StatisticsHandler extends Handler {
 		for ($i = 1; $i <= 12; $i++) {
 			$currTotal = 0;
 			foreach ($entries as $entry) {
-				$month = substr($entry[0], -2, 2);
+				$month = substr($entry['month'], -2, 2);
 				if ($i==$month) {
-					$currTotal += $entry[1];
+					$currTotal += $entry['sum_metric'];
 				}
 			}
 			$cols[]=$currTotal;
@@ -324,7 +299,7 @@ class StatisticsHandler extends Handler {
 		if($entries == null) return;
 		foreach($entries as $entry) {
 			$currTotal = 0;
-			$currTotal += $entry[1];
+			$currTotal += $entry['sum_metric'];
 			$cols[]=$currTotal;
 		}
 	}
@@ -332,7 +307,7 @@ class StatisticsHandler extends Handler {
 	private function day(&$cols, $entries) {
 		if($entries == null) return;
 		foreach($entries as $entry) {
-			$currTotal = substr($entry[0],-2,2) . "/" . substr($entry[0],-4,2) . "/" . substr($entry[0],0,4) ;
+			$currTotal = substr($entry['day'],-2,2) . "/" . substr($entry['day'],-4,2) . "/" . substr($entry['day'],0,4) ;
 			$cols[]=$currTotal;
 		}
 	}
@@ -343,14 +318,11 @@ class StatisticsHandler extends Handler {
 		for ($i = $year-5; $i <= $year; $i++) {
 			$currTotal = 0;
 			foreach ($entries as $entry) {
-				if ($i==$entry[0]) {
-					$currTotal += $entry[1];
+				if ($i==$entry['year_name']) {
+					$currTotal += $entry['sum_metric'];
 				}
 			}
 			$cols[]=$currTotal;
 		}
 	}
-
 }
-
-?>
