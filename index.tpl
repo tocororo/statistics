@@ -51,7 +51,7 @@
 	<ul class="nav nav-pills" id="myTab" >
     	<li class="active"><a href="#tabMonth" data-toggle="tab" class="btnOLD">{translate key="plugins.generic.statistics.monthly"}</a></li>
 		<li><a href="#tabYear" data-toggle="tab">{translate key="plugins.generic.statistics.lastYears"}</a></li>
-		<li><a href="#tabWeek" data-toggle="tab">{translate key="plugins.generic.statistics.lastDays"}</a></li>
+		{* <li><a href="#tabWeek" data-toggle="tab">{translate key="plugins.generic.statistics.lastDays"}</a></li> *}
 		<li><a href="#tabByCountry" data-toggle="tab">{translate key="plugins.generic.statistics.byCountry"}</a></li>
 		<li><a href="#tabArticleDownload" data-toggle="tab">{translate key="plugins.generic.statistics.article"} (Download)</a></li>
 		<li><a href="#tabArticleAbstract" data-toggle="tab">{translate key="plugins.generic.statistics.article"} (Abstract)</a></li>
@@ -60,18 +60,18 @@
 	<br><br>
     <div class="tab-content">
     	<div class="tab-pane active" id="tabMonth">
-			<div id="chartEstadisticasMonth" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
+			<div id="chartStatMonth" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
 		</div>
         <div class="tab-pane" id="tabYear">
-        	<div id="chartEstadisticasByYear" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
+        	<div id="chartStatByYear" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
 		</div>
     	<div class="tab-pane active" id="tabWeek">
-			<div id="chartEstadisticasWeek" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
+			<div id="chartStatWeek" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
 		</div>
 		<div class="tab-pane" id="tabByCountry">
-			<div id="chartPaisesDownload" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
+			<div id="chartCountryDownload" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
 			<br/>
-        	<div id="chartPaisesAbstract" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
+        	<div id="chartCountryAbstract" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
 		</div>
 		<div class="tab-pane" id="tabArticleDownload">
 			<div id="chartArticleDownload" style="min-width: 450px; height: 450px; margin: 0 auto"></div>
@@ -132,6 +132,7 @@
 	var l = window.location;
 	var base_location = l;
 	var base_url = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
+	var base_url_journal = l.pathname.slice(0, l.pathname.lastIndexOf('/'));
 
 	var typeChart = "column";
 	var tabSelected = "tabMonth";
@@ -229,7 +230,7 @@
 				}
 
 				
-				chartPaisesAbstract = new Highcharts.Chart(optionsPaisesAbstract);
+				chartCountryAbstract = new Highcharts.Chart(optionsPaisesAbstract);
 			});
 		};
 
@@ -248,7 +249,7 @@
 					optionsPaisesDownload.series[0].data[i] = [data[i].country, parseInt(data[i].count)];
 				}
 
-				chartPaisesDownload = new Highcharts.Chart(optionsPaisesDownload);
+				chartCountryDownload = new Highcharts.Chart(optionsPaisesDownload);
 			});
 		};
 
@@ -269,7 +270,7 @@
 					$("#tbodyDownload").append( '<tr>'+
 							'<td class="text-center success">'+(i+1)+'</td>'+
 						    '<td class="text-left">'+
-							'<a href="http://revistas.amag.edu.pe/index.php/amag/article/view/'+data[i].id+'" class="pkpStatistics__itemLink">'+data[i].article+'</a>'+
+							'<a href="' + base_url_journal + '/article/view/'+data[i].id+'" class="pkpStatistics__itemLink">'+data[i].article+'</a>'+
 							'</td>'+
 						    '<td class="text-center">'+data[i].count+'</td>'+
 					      	'</tr>');
@@ -297,7 +298,7 @@
 					$("#tbodyAbstract").append( '<tr>'+
 							'<td class="text-center success">'+(i+1)+'</td>'+
 						    '<td class="text-left">'+
-							'<a href="http://revistas.amag.edu.pe/index.php/amag/article/view/'+data[i].id+'">'+data[i].article+'</a>'+
+							'<a href="' + base_url_journal + '/article/view/'+data[i].id+'">'+data[i].article+'</a>'+
 							'</td>'+
 						    '<td class="text-center">'+data[i].count+'</td>'+
 					      	'</tr>');
@@ -345,7 +346,7 @@
 		var chartMonth;
 		var optionsMonth = {
 			chart: {
-	            renderTo: 'chartEstadisticasMonth',
+	            renderTo: 'chartStatMonth',
 	            type: typeChart,
 	            options3d: {
 	                enabled: false,
@@ -361,7 +362,7 @@
 	            text: '{/literal}{translate key="plugins.generic.statistics.byMonth"}{literal}'
 	        },
 	        xAxis: {
-	            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+	            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 	            crosshair: true
 	        },
 	        yAxis: {
@@ -369,7 +370,6 @@
 	            title: {
 	        		text: '{/literal}{translate key="plugins.generic.statistics.queryNumbers"}{literal}'
 	            }
-	            
 	        },
 			tooltip: {
 	            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
@@ -385,8 +385,14 @@
 	                borderWidth: 0
 	            }
 	        },
-	       
-	        series: []
+	        series: [],
+			exporting: {
+				buttons: {
+					contextButton: {
+						enabled: false
+					}
+				}
+			}
 		}
 
 		//onload page load chart by MONTH
@@ -399,7 +405,7 @@
 		var chartByYear;
 		var optionsByYear = {
 			chart: {
-	            renderTo: 'chartEstadisticasByYear',
+	            renderTo: 'chartStatByYear',
 	            type: typeChart,
 	            options3d: {
 	                enabled: false,
@@ -438,7 +444,14 @@
 	                borderWidth: 0
 	            }
 	        },
-	        series: []
+	        series: [],
+			exporting: {
+				buttons: {
+					contextButton: {
+						enabled: false
+					}
+				}
+			}
 		}
 
 
@@ -448,7 +461,7 @@
 		var chartWeek;
 		var optionsWeek = {
 			chart: {
-	            renderTo: 'chartEstadisticasWeek',
+	            renderTo: 'chartStatWeek',
 	            type: typeChart,
 	            options3d: {
 	                enabled: false,
@@ -487,17 +500,24 @@
 	                borderWidth: 0
 	            }
 	        },
-	        series: []
+	        series: [],
+			exporting: {
+				buttons: {
+					contextButton: {
+						enabled: false
+					}
+				}
+			}
 		}
 
 
 		//*******************************************************************************************
 
-		var chartPaisesAbstract;
+		var chartCountryAbstract;
 		
 		var optionsPaisesAbstract = {
 			chart: {
-	            renderTo: 'chartPaisesAbstract',
+	            renderTo: 'chartCountryAbstract',
 	            options3d: {
 	                enabled: true,
 	                alpha: 45,
@@ -526,17 +546,24 @@
 	        	name: '{/literal}{translate key="plugins.generic.statistics.viewByCountries"}{literal}',
                 data: [
                 ]
-            }]
+            }],
+			exporting: {
+				buttons: {
+					contextButton: {
+						enabled: false
+					}
+				}
+			}
 		}
 
 
 		//*******************************************************************************************
 
-		var chartPaisesDownload;
+		var chartCountryDownload;
 		
 		var optionsPaisesDownload = {
 			chart: {
-	            renderTo: 'chartPaisesDownload',
+	            renderTo: 'chartCountryDownload',
 	            options3d: {
 	                enabled: true,
 	                alpha: 45,
@@ -565,7 +592,14 @@
 	        	name: '{/literal}{translate key="plugins.generic.statistics.downloadByCountries"}{literal}',
                 data: [
                 ]
-            }]
+            }],
+			exporting: {
+				buttons: {
+					contextButton: {
+						enabled: false
+					}
+				}
+			}
 		}
 
 
@@ -604,7 +638,14 @@
 	        	name: '{/literal}{translate key="plugins.generic.statistics.downloadByCountries"}{literal}',
                 data: [
                 ]
-            }]
+            }],
+			exporting: {
+				buttons: {
+					contextButton: {
+						enabled: false
+					}
+				}
+			}
 		}
 
 		//*******************************************************************************************
@@ -642,7 +683,14 @@
 	        	name: '{/literal}{translate key="plugins.generic.statistics.viewAbstracts"}{literal}',
                 data: [
                 ]
-            }]
+            }],
+			exporting: {
+				buttons: {
+					contextButton: {
+						enabled: false
+					}
+				}
+			}
 		}
 
 		//*******************************************************************************************
@@ -680,119 +728,114 @@
 	        	name: '{/literal}{translate key="plugins.generic.statistics.viewAbstracts"}{literal}',
                 data: [
                 ]
-            }]
+            }],
+			exporting: {
+				buttons: {
+					contextButton: {
+						enabled: false
+					}
+				}
+			}
 		}
-
 
 		/***********************************************************
 		 *         			 	EVENTS
 		 ***********************************************************/
-
 		
 		$('[data-toggle="tab"]').click(function(e) {
 		    var $this = $(this);
 		    href = $this.attr('href');
-			if(href == "#tabMonth"){
+			if (href == "#tabMonth") {
 				tabSelected = "tabMonth";
 				if(chartMonth) chartMonth.destroy();
 				jQuery.fn.updateChartMonth();
 
 				$('#btnGroup button').removeAttr('disabled');
 				
-			}else if(href == "#tabYear"){
+			} else if (href == "#tabYear") {
 				tabSelected = "tabYear";
 				if(chartByYear) chartByYear.destroy();
 				jQuery.fn.updateChartByYear();
 				
 				$('#btnGroup button').removeAttr('disabled');
-
 				
-			}else if(href == "#tabWeek"){
+			} else if (href == "#tabWeek") {
 				tabSelected = "tabWeek";
 				if(chartWeek) chartWeek.destroy();
 				jQuery.fn.updateChartWeek();
 				
 				$('#btnGroup button').removeAttr('disabled');
-
 				
-			}else if(href == "#tabByCountry"){
+			} else if (href == "#tabByCountry") {
 				tabSelected = "tabByCountry";
-				if(chartPaisesAbstract) chartPaisesAbstract.destroy();
-				if(chartPaisesDownload) chartPaisesDownload.destroy();
+				if(chartCountryAbstract) chartCountryAbstract.destroy();
+				if(chartCountryDownload) chartCountryDownload.destroy();
 				jQuery.fn.updateChartPaisesAbstract();
 				jQuery.fn.updateChartPaisesDownload();
 				
 				$('#btnGroup button').attr('disabled','disabled');
 				
-			}else if(href == "#tabArticleDownload"){
+			} else if (href == "#tabArticleDownload") {
 				tabSelected = "tabArticleDownload";
 				if(chartArticleDownload) chartArticleDownload.destroy();
 				jQuery.fn.updateChartArticleDownload();
 				
 				$('#btnGroup button').attr('disabled','disabled');
 				
-			}else if(href == "#tabArticleAbstract"){
+			} else if (href == "#tabArticleAbstract") {
 				tabSelected = "tabArticleAbstract";
 				if(chartArticleAbstract) chartArticleAbstract.destroy();
 				jQuery.fn.updateChartArticleAbstract();
 
 				$('#btnGroup button').attr('disabled','disabled');
-				 
 				
-			}else if(href == "#tabIssues"){
+			} else if (href == "#tabIssues") {
 				tabSelected = "tabIssues";
 				if(chartIssues) chartIssues.destroy();
 				jQuery.fn.updateChartIssues();
 
 				$('#btnGroup button').attr('disabled','disabled');
-				 
 			}
 
 		    $this.tab('show');
 
-		    resetValues();
-
 		    return false;
 		});
 
-
 	    $('#btnPrev').on('click', function (e) {
 			$('#year').text($('#year').text()-1);
-	    	if(tabSelected == "tabMonth"){
+	    	if (tabSelected == "tabMonth") {
 				$('this').updateChartMonth ();				
-			}else if(tabSelected == "tabYear"){
+			} else if (tabSelected == "tabYear") {
 				$('this').updateChartByYear ();
-			}else if(tabSelected == "tabByCountry"){
+			} else if (tabSelected == "tabByCountry") {
 				$('this').updateChartPaisesAbstract ();
 				$('this').updateChartPaisesDownload ();
-			}else if(tabSelected == "tabArticleDownload"){
+			} else if (tabSelected == "tabArticleDownload") {
 				$('this').updateChartArticleDownload ();
-			}else if(tabSelected == "tabArticleAbstract"){
+			} else if (tabSelected == "tabArticleAbstract") {
 				$('this').updateChartArticleAbstract ();
-			}else if(tabSelected == "tabIssues"){
+			} else if (tabSelected == "tabIssues") {
 				$('this').updateChartIssues ();
 			}
-	    	resetValues();
 	    });
 
 	    $('#btnNext').on('click', function (e) {
 			$("#year").text($('#year').text()-0+1);
-	    	if(tabSelected == "tabMonth"){
+	    	if (tabSelected == "tabMonth") {
 				$('this').updateChartMonth ();				
-			}else if(tabSelected == "tabYear"){
+			} else if (tabSelected == "tabYear") {
 				$('this').updateChartByYear ();
-			}else if(tabSelected == "tabByCountry"){
+			} else if (tabSelected == "tabByCountry") {
 				$('this').updateChartPaisesAbstract ();
 				$('this').updateChartPaisesDownload ();
-			}else if(tabSelected == "tabArticleDownload"){
+			} else if (tabSelected == "tabArticleDownload") {
 				$('this').updateChartArticleDownload ();
-			}else if(tabSelected == "tabArticleAbstract"){
+			} else if (tabSelected == "tabArticleAbstract") {
 				$('this').updateChartArticleAbstract ();
-			}else if(tabSelected == "tabIssues"){
+			} else if (tabSelected == "tabIssues") {
 				$('this').updateChartIssues ();
 			}
-			
-	    	resetValues();
 	    });
 
 	    $('#btnTypeColumns').on('click', function (e) {
@@ -809,17 +852,13 @@
 			optionsWeek.chart.type = 'column';
 		   	optionsWeek.plotOptions.column.stacking = '';
 
-	    	if(tabSelected == "tabMonth"){
+	    	if(tabSelected == "tabMonth") {
 		    	chartMonth = new Highcharts.Chart(optionsMonth);
-			}else if(tabSelected == "tabYear"){
+			} else if(tabSelected == "tabYear") {
 			    chartByYear = new Highcharts.Chart(optionsByYear);
-			}else if(tabSelected == "tabWeek"){
+			} else if(tabSelected == "tabWeek") {
 			    chartWeek = new Highcharts.Chart(optionsWeek);
 			}
-
-			//reset
-	    	resetValues();
-
 	    });
 
 	    $('#btnTypeColumnsStack').on('click', function (e) {
@@ -827,7 +866,6 @@
 	    	$("#btnTypeColumns").attr('class', 'btn btn-default');
 	    	$("#btnTypeColumnsStack").attr('class', 'btn btn-success');
 	    	$("#btnTypeLine").attr('class', 'btn btn-default');
-			
 
 	    	typeChart = 'column';
 			optionsMonth.chart.type = 'column';
@@ -837,16 +875,13 @@
 			optionsWeek.chart.type = 'column';
 		   	optionsWeek.plotOptions.column.stacking = 'normal';
 
-	    	if(tabSelected == "tabMonth"){
+	    	if (tabSelected == "tabMonth") {
 		    	chartMonth = new Highcharts.Chart(optionsMonth);
-			}else if(tabSelected == "tabYear"){
+			} else if(tabSelected == "tabYear") {
 			    chartByYear = new Highcharts.Chart(optionsByYear);
-			}else if(tabSelected == "tabWeek"){
+			} else if(tabSelected == "tabWeek") {
 			    chartWeek = new Highcharts.Chart(optionsWeek);
 			}
-
-			//reset
-	    	resetValues();
 	    });
 
 
@@ -864,18 +899,14 @@
 			optionsWeek.chart.type = 'line';
 		   	optionsWeek.plotOptions.column.stacking = '';
 
-	    	if(tabSelected == "tabMonth"){
+	    	if (tabSelected == "tabMonth") {
 		    	chartMonth = new Highcharts.Chart(optionsMonth);
-			}else if(tabSelected == "tabYear"){
+			} else if(tabSelected == "tabYear") {
 			    chartByYear = new Highcharts.Chart(optionsByYear);
-			}else if(tabSelected == "tabWeek"){
-			    chartWeek = new Highcharts.Chart(optionsWeek);
+			} else if(tabSelected == "tabWeek") {
+				chartWeek = new Highcharts.Chart(optionsWeek);
 			}
-
-	    	//reset
-	    	resetValues();
 	    });
-
 	    
 	}); //end ready function
 
