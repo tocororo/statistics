@@ -1,0 +1,130 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-03-29 17:45+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "plugins.generic.statistics.description"
+msgstr "Statistics charts. Graphical display of the 'METRICS' table data"
+
+msgid "plugins.generic.statistics.name"
+msgstr "Statistics"
+
+msgid "plugins.generic.statistics.monthly"
+msgstr "Monthly"
+
+msgid "plugins.generic.statistics.lastYears"
+msgstr "Last 6 years"
+
+msgid "plugins.generic.statistics.lastDays"
+msgstr "This Week"
+
+msgid "plugins.generic.statistics.byCountry"
+msgstr "Countries"
+
+msgid "plugins.generic.statistics.article"
+msgstr "Articles"
+
+msgid "plugins.generic.statistics.nameArticle"
+msgstr "Article name"
+
+msgid "plugins.generic.statistics.nameIssue"
+msgstr "Issue name"
+
+msgid "plugins.generic.statistics.downloads"
+msgstr "Downloads"
+
+msgid "plugins.generic.statistics.abstracts"
+msgstr "Views"
+
+msgid "plugins.generic.statistics.columns"
+msgstr "Columns"
+
+msgid "plugins.generic.statistics.columnsStack"
+msgstr "Stack columns"
+
+msgid "plugins.generic.statistics.bar"
+msgstr "Bars"
+
+msgid "plugins.generic.statistics.lines"
+msgstr "Lines"
+
+msgid "plugins.generic.statistics.titleByArticle"
+msgstr "Statistics by article"
+
+msgid "plugins.generic.statistics.queryNumbers"
+msgstr "Number of queries"
+
+msgid "plugins.generic.statistics.querysToTheJournal"
+msgstr "Downloads and article abstract page views in"
+
+msgid "plugins.generic.statistics.querysFrom"
+msgstr "Downloads and article abstract page views from"
+
+msgid "plugins.generic.statistics.querysTo"
+msgstr "to"
+
+msgid "plugins.generic.statistics.viewByCountries"
+msgstr "Views"
+
+msgid "plugins.generic.statistics.downloadByCountries"
+msgstr "Downloads"
+
+msgid "plugins.generic.statistics.viewAbstracts"
+msgstr "Views"
+
+msgid "plugins.generic.statistics.viewAbstractsByCountry"
+msgstr "Article abstract page views"
+
+msgid "plugins.generic.statistics.viewDownloads"
+msgstr "Downloads"
+
+msgid "plugins.generic.statistics.lastYears2"
+msgstr "Last 6 years"
+
+msgid "plugins.generic.statistics.byMonthArticle"
+msgstr "Last 12 months"
+
+msgid "plugins.generic.statistics.byMonth"
+msgstr "For months of the year"
+
+msgid "plugins.generic.statistics.querysToTheArticle"
+msgstr "Queries to the article"
+
+msgid "plugins.generic.statistics.querysFromArticle"
+msgstr "Queries to the article from"
+
+msgid "plugins.generic.statistics.issues"
+msgstr "Issues"
+
+msgid "plugins.generic.statistics.volume"
+msgstr "Volume"
+
+msgid "plugins.generic.statistics.number"
+msgstr "Number"
+
+msgid "plugins.generic.statistics.year"
+msgstr "Year"
+
+msgid "plugins.generic.statistics.rankingDownloadArticles"
+msgstr "Ranking most downloaded articles"
+
+msgid "plugins.generic.statistics.rankingAbstractArticles"
+msgstr "Ranking article abstract page views"
+
+msgid "plugins.generic.statistics.rankingIssues"
+msgstr "Ranking issue table of contents page views"
+
+msgid "plugins.generic.statistics.titlePage"
+msgstr "Statistics"
+
+msgid "plugins.generic.statistics.forWeek"
+msgstr "Downloads and article abstract page views"
+
+msgid "plugins.generic.statistics.lastDays2"
+msgstr "This week"
