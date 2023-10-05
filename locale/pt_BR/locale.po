@@ -1,0 +1,120 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-10-05T20:30:31+00:00\n"
+"PO-Revision-Date: 2023-10-05T20:30:31+00:00\n"
+"Language: \n"
+
+msgid "plugins.generic.statistics.description"
+msgstr "Gráficos estatísticos. Visualização gráfica das estatísticas da tabela 'METRICS'"
+
+msgid "plugins.generic.statistics.name"
+msgstr "Estatísticas"
+
+msgid "plugins.generic.statistics.monthly"
+msgstr "Mensal"
+
+msgid "plugins.generic.statistics.lastYears"
+msgstr "Últimos anos"
+
+msgid "plugins.generic.statistics.byCountry"
+msgstr "Países"
+
+msgid "plugins.generic.statistics.article"
+msgstr "Artigos"
+
+msgid "plugins.generic.statistics.nameArticle"
+msgstr "Nome do artigo"
+
+msgid "plugins.generic.statistics.nameIssue"
+msgstr "Número da edição"
+
+msgid "plugins.generic.statistics.downloads"
+msgstr "Downloads"
+
+msgid "plugins.generic.statistics.abstracts"
+msgstr "Visualizações"
+
+msgid "plugins.generic.statistics.columns"
+msgstr "Colunas"
+
+msgid "plugins.generic.statistics.columnsStack"
+msgstr "Colunas empilhadas"
+
+msgid "plugins.generic.statistics.bar"
+msgstr "Barras"
+
+msgid "plugins.generic.statistics.lines"
+msgstr "Linhas"
+
+msgid "plugins.generic.statistics.titleByArticle"
+msgstr "Estatísticas por artigo"
+
+msgid "plugins.generic.statistics.queryNumbers"
+msgstr "Número de consultas"
+
+msgid "plugins.generic.statistics.querysToTheJournal"
+msgstr "Downloads e visualizações da página de resumo do artigo em"
+
+msgid "plugins.generic.statistics.querysFrom"
+msgstr "Downloads e visualizações da página de resumo do artigo desde"
+
+msgid "plugins.generic.statistics.querysTo"
+msgstr "até"
+
+msgid "plugins.generic.statistics.viewByCountries"
+msgstr "Visualizações"
+
+msgid "plugins.generic.statistics.downloadByCountries"
+msgstr "Downloads"
+
+msgid "plugins.generic.statistics.viewAbstracts"
+msgstr "Visualizações"
+
+msgid "plugins.generic.statistics.viewAbstractsByCountry"
+msgstr "Visualizações da página de resumo do artigo"
+
+msgid "plugins.generic.statistics.viewDownloads"
+msgstr "Donwloads"
+
+msgid "plugins.generic.statistics.lastYears2"
+msgstr "Últimos 6 anos"
+
+msgid "plugins.generic.statistics.byMonthArticle"
+msgstr "Últimos 12 meses"
+
+msgid "plugins.generic.statistics.byMonth"
+msgstr "Por meses do ano"
+
+msgid "plugins.generic.statistics.querysToTheArticle"
+msgstr "Consultas ao artigo"
+
+msgid "plugins.generic.statistics.querysFromArticle"
+msgstr "Consultas ao artigo desde"
+
+msgid "plugins.generic.statistics.issues"
+msgstr "Edições"
+
+msgid "plugins.generic.statistics.volume"
+msgstr "Volume"
+
+msgid "plugins.generic.statistics.number"
+msgstr "Número"
+
+msgid "plugins.generic.statistics.year"
+msgstr "Ano"
+
+msgid "plugins.generic.statistics.rankingDownloadArticles"
+msgstr "Ranking dos artigos mais baixados"
+
+msgid "plugins.generic.statistics.rankingAbstractArticles"
+msgstr "Ranking  das páginas de resumo mais visualizdas"
+
+msgid "plugins.generic.statistics.rankingIssues"
+msgstr "Ranking dos sumários de revista mais visualizados"
