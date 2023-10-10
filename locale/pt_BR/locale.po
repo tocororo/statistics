@@ -34,10 +34,10 @@ msgid "plugins.generic.statistics.article"
 msgstr "Artigos"
 
 msgid "plugins.generic.statistics.nameArticle"
-msgstr "Nome do artigo"
+msgstr "Título do Artigo"
 
 msgid "plugins.generic.statistics.nameIssue"
-msgstr "Número da edição"
+msgstr "Título da Edição"
 
 msgid "plugins.generic.statistics.downloads"
 msgstr "Downloads"
