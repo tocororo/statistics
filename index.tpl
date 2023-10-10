@@ -53,8 +53,8 @@
 		<li><a href="#tabYear" data-toggle="tab">{translate key="plugins.generic.statistics.lastYears"}</a></li>
 		{* <li><a href="#tabWeek" data-toggle="tab">{translate key="plugins.generic.statistics.lastDays"}</a></li> *}
 		<li><a href="#tabByCountry" data-toggle="tab">{translate key="plugins.generic.statistics.byCountry"}</a></li>
-		<li><a href="#tabArticleDownload" data-toggle="tab">{translate key="plugins.generic.statistics.article"} (Download)</a></li>
-		<li><a href="#tabArticleAbstract" data-toggle="tab">{translate key="plugins.generic.statistics.article"} (Abstract)</a></li>
+		<li><a href="#tabArticleDownload" data-toggle="tab">{translate key="plugins.generic.statistics.article"} ({translate key="plugins.generic.statistics.downloads"})</a></li>
+		<li><a href="#tabArticleAbstract" data-toggle="tab">{translate key="plugins.generic.statistics.article"} ({translate key="common.abstract"})</a></li>
 		<li><a href="#tabIssues" data-toggle="tab">{translate key="plugins.generic.statistics.issues"}</a></li>
 	</ul>
 	<br><br>

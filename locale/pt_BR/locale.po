@@ -11,6 +11,10 @@ msgstr ""
 "PO-Revision-Date: 2023-10-05T20:30:31+00:00\n"
 "Language: \n"
 
+
+msgid "plugins.generic.statistics.titlePage"
+msgstr "Estatísticas"
+
 msgid "plugins.generic.statistics.description"
 msgstr "Gráficos estatísticos. Visualização gráfica das estatísticas da tabela 'METRICS'"
 
