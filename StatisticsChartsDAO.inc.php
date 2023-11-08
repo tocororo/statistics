@@ -70,7 +70,7 @@ class StatisticsChartsDAO extends MetricsDAO {
 	
 	function getMetricsByCountryType($journalId, $assoc_type, $year) {
 		$result = $this->retrieve(
-			'SELECT country_id, SUM(metric) AS sum_metric FROM metrics WHERE context_id = ? AND assoc_type = ? AND SUBSTR(month,1,4) = ? GROUP BY country_id order by SUM(metric) ASC LIMIT 20;',
+			'SELECT country_id, SUM(metric) AS sum_metric FROM metrics WHERE context_id = ? AND assoc_type = ? AND SUBSTR(month,1,4) = ? GROUP BY country_id order by SUM(metric) DESC LIMIT 20;',
 			array((int) $journalId, (int) $assoc_type, $year)
 		);
 
